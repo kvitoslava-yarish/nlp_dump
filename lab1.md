@@ -66,7 +66,15 @@ This rule preserves punctuation and treats line breaks as sentence boundaries, w
 
 ### 2.3 Quantitative Results
 
-All results below correspond to the **WordPiece tokenizer** trained on the fiction corpus.
+## Word-Level Tokenizer 
+
+A word-level tokenizer is used as a lower-bound efficiency baseline. It produces no unknown tokens and no subword fragmentation.
+
+| Domain  | Avg tokens / sentence | Avg chars / sentence | Fertility (per char) | UNK rate |
+|--------|-----------------------|----------------------|----------------------|----------|
+| Fiction | 8.20 | 39.38 | 0.208 | 0.000 |
+| Social  | 11.37 | 55.00 | 0.207 | 0.000 |
+
 
 #### WordPiece — Tokenization Metrics
 
