@@ -254,8 +254,42 @@ MLM fine-tuning integrates new tokens into the pretrained embedding space.
 |-----|----------|
 | Baseline | Original XLM-R |
 | Adapted | Ukrainian-augmented |
+### Results
+In this part, we compare the **baseline model** and the **adapted model** using both **validation metrics** and **Kaggle leaderboard performance** to assess generalization.
 
-Tokenizer adaptation reduces sequence length without degrading downstream performance.
+### Validation Results
+
+On the validation set, both models demonstrate very similar performance:
+
+- **Baseline model**
+  - Best validation Macro-F1: **0.8939**
+  - Accuracy: **0.9049**
+
+- **Adapted model**
+  - Best validation Macro-F1: **0.8922**
+  - Accuracy: **0.9021**
+
+The difference in Macro-F1 between the two models on validation is negligible (~0.0017), indicating that the adaptation did **not significantly improve nor degrade** performance on held-out validation data.
+
+### Kaggle Leaderboard Results
+
+When evaluated on the Kaggle test set, the results differ more clearly:
+
+- **Baseline submission:** **0.89268**
+- **Adapted submission:** **0.88742**
+
+Despite comparable validation scores, the adapted model performs **worse on the unseen test data**, showing a drop of approximately **0.5 percentage points** compared to the baseline.
+
+### Interpretation
+
+This discrepancy suggests that the adaptations introduced in Part 3 slightly **reduced generalization ability**. While the adapted model fits the validation distribution well, it likely:
+
+- over-specialized to validation patterns,
+- introduced noise or bias not present in the test set,
+- or reduced robustness across class boundaries.
+
+The baseline model, although simpler, appears to generalize more reliably to truly unseen data.
+
 
 ---
 
