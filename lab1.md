@@ -1,8 +1,6 @@
 # NLP Assignment #1  
 ## Tokenization, Embeddings, and Tokenizer Transfer for Ukrainian
 
-**Course:** Natural Language Processing  
-**Assignment:** #1 — Tokenization, Embeddings  
 ---
 
 ## 1. Data and Experimental Setup
