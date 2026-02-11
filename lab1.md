@@ -47,9 +47,9 @@ This rule preserves punctuation and treats line breaks as sentence boundaries, w
 | Tokenizer | Training method | Vocabulary size | Notes |
 |---------|----------------|-----------------|------|
 | Word-level | Whitespace + punctuation | — | Baseline |
-| WordPiece | BERT-style | 30_000| Used in BERT-family models |
+| WordPiece | BERT-style | 30,000| Used in BERT-family models |
 | SentencePiece (Unigram) | Unigram LM | — | Probabilistic segmentation |
-| SentencePiece (BPE) | BPE merges | — | Deterministic subword merges |
+| SentencePiece (BPE) | BPE merges | 32,000 | Deterministic subword merges |
 
 ---
 
@@ -81,6 +81,13 @@ A word-level tokenizer is used as a lower-bound efficiency baseline. It produces
 | Fiction | 39.38 | 9.54 | 0.242 | 10,000 | 0.000 |
 | Social  | 55.00 | 19.30 | 0.351 | 10,000 | 0.0257 |
 
+#### SentencePiece BPE
+
+| Domain  | Avg tokens / sentence | Avg tokens / word | Fertility | # Sentences | UNK rate |
+|--------|-----------------------|-------------------|-----------|-------------|----------|
+| Fiction | 18.53 | 1.71 | 0.276 | 10,000 | 0.000 |
+| Social  | 33.76 | 2.42 | 0.256 | 10,000 | 0.000 |
+
 ---
 
 ### 2.4 Discussion (Tokenization)
@@ -98,13 +105,13 @@ A word-level tokenizer is used as a lower-bound efficiency baseline. It produces
 
 ### 3.1 Training Setup
 
-- **Model:** Skip-gram  
-- **Vector dimension:** —  
-- **Context window:** —  
-- **Training corpus:** fiction training sentences  
-- **Min-count / subsampling:** —  
+- **Model:** Skip-gram (sg=1)
+- **Vector dimension:** 100
+- **Context window:** 5
+- **Training corpus:** UberText news split (50,000 sentences)
+- **Min-count / subsampling:** min_count=5 / default (1e-3)
 
-Word2Vec is trained on the same preprocessed sentence-level data used for tokenizer training.
+Word2Vec is trained on the `news` split of the `ubertext` dataset used for tokenizer training.
 
 ---
 
@@ -113,85 +120,55 @@ Word2Vec is trained on the same preprocessed sentence-level data used for tokeni
 #### Nearest Neighbor Analysis
 
 | Query word | Top-5 nearest neighbors | Comments |
-|----------|------------------------|----------|
-| | | |
-| | | |
+|------------|------------------------|----------|
+| **якість** | продуктивність (0.71), ефективність (0.68), якісне (0.68), доступність (0.68), спроможність (0.67) | Semantic coherence: related abstract nouns denoting properties/capabilities; morphological variant "якісне" included |
+| **товар** | абонент (0.71), лічильник (0.71), ремонтувати (0.69), продавався (0.69), чіп (0.69) | Mixed semantic field: technical/commercial context; includes derived verb form "продавався" |
+| **швидко** | довго (0.71), результативно (0.71), повільно (0.70), штовхати (0.70), запізно (0.69) | Strong antonym detection (довго/повільно vs швидко); some noise (штовхати unrelated) |
+| **рекомендую** | блін (0.85), глобально (0.84), пишу (0.84), одержую (0.84), вмію (0.84) | Poor semantic coherence — neighbors are discourse markers/fillers; suggests data sparsity for this verb form |
+| **день** | святкується (0.67), вечір (0.67), вихідний (0.65), христове (0.65), днем (0.65) | Temporal coherence with inflectional variant "днем"; holiday-related associations |
+| **привіт** | скажи (0.83), олексійовичу (0.83), меня (0.82), чорт (0.82), розповім (0.82) | Greeting formula associated with direct speech verbs; some noise (чорт as interjection) |
 
 Nearest neighbors are analyzed qualitatively to assess semantic coherence and morphological similarity.
 
 ---
 
-### 3.3 Extrinsic Evaluation
-
-**Task:** Ukrainian text classification  
-**Dataset:** —  
-
-**Embedding usage:**
-- ☐ Average pooling  
-- ☐ TF–IDF weighted pooling  
-
-**Classifier:** Linear / Logistic Regression
-
-| Model | Accuracy | Macro-F1 |
-|------|----------|----------|
-| Word2Vec + linear | — | — |
-
-
-## 3. Part 2 — Static Embeddings: Word2Vec
-
-### 3.1 Training Setup
-
-- Model: CBOW / Skip-gram  
-- Vector dimension:  
-- Window size:  
-- Training corpus:  
-- Subsampling / min-count:  
-
----
-
-### 3.2 Intrinsic Evaluation
-
-#### Nearest Neighbor Analysis
-
-| Query word | Top-5 nearest neighbors | Comments |
-|----------|------------------------|----------|
-| | | |
-| | | |
-
-*(Discuss semantic vs morphological neighbors, artifacts, domain bias.)*
-
----
-
 #### Analogy Evaluation (Optional)
 
-| Analogy | Predicted | Correct | |
-|-------|-----------|---------|--|
-| | | | |
+| Analogy | Predicted | Correct | ✓ |
+|---------|-----------|---------|---|
+| король − чоловік + жінка | **королева** | королева | ✓ |
 
 ---
 
 ### 3.3 Extrinsic Evaluation
 
-**Task:** Ukrainian text classification  
-**Dataset:**  
+**Task:** Ukrainian text classification (sentiment analysis)  
+**Dataset:** UAReviews (9,998 samples after filtering, binary: Positive/Negative)
 
 **Embedding usage:**
-- ☐ Average pooling
-- ☐ Min–max pooling
-- ☐ TF–IDF weighted pooling
+- ☑ Average pooling  
+- ☐ TF–IDF weighted pooling  
 
-**Classifier:** Linear / Logistic Regression  
+**Classifier:** Logistic Regression (max_iter=1000)
 
 | Model | Accuracy | Macro-F1 |
-|------|---------|----------|
-| Word2Vec + linear | | |
+|-------|----------|----------|
+| Word2Vec + linear | 0.90 | 0.84 |
+
+Classification report breakdown:
+- Negative: Precision=0.81, Recall=0.68, F1=0.74
+- Positive: Precision=0.92, Recall=0.96, F1=0.94
 
 ---
 
 ### 3.4 Discussion
 
-- Do intrinsic metrics correlate with downstream performance?
-- Limitations of static embeddings for Ukrainian morphology.
+**Intrinsic vs. Extrinsic Correlation:** The intrinsic evaluation shows mixed results — while some words (якість, день) exhibit semantically coherent neighbors, others (рекомендую, привіт) show high-cosine neighbors with little semantic relation. Despite these intrinsic inconsistencies, the extrinsic classification achieves strong performance (90% accuracy), suggesting that aggregate vector representations capture sufficient sentiment cues even when individual word neighborhoods are noisy.
+
+**Limitations for Ukrainian Morphology:** The model demonstrates sensitivity to morphological variation (e.g., "якість" ↔ "якісне", "день" ↔ "днем"), which is beneficial for rich morphology but can fragment the semantic space. The Skip-gram architecture with a modest window (5) and medium corpus (50K sentences) provides reasonable coverage but may struggle with:
+- Rare inflected forms (evidenced by poor neighbors for "рекомендую")
+- Context-dependent sentiment expressions
+- Domain-specific terminology from the news corpus (UberText) being applied to review classification
 
 ---
 
