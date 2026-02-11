@@ -48,7 +48,7 @@ This rule preserves punctuation and treats line breaks as sentence boundaries, w
 |---------|----------------|-----------------|------|
 | Word-level | Whitespace + punctuation | — | Baseline |
 | WordPiece | BERT-style | 30,000| Used in BERT-family models |
-| SentencePiece (Unigram) | Unigram LM | — | Probabilistic segmentation |
+| SentencePiece (Unigram) | Unigram LM | 30,000 | Probabilistic segmentation |
 | SentencePiece (BPE) | BPE merges | 32,000 | Deterministic subword merges |
 
 ---
@@ -87,6 +87,13 @@ A word-level tokenizer is used as a lower-bound efficiency baseline. It produces
 |--------|-----------------------|-------------------|-----------|-------------|----------|
 | Fiction | 18.53 | 1.71 | 0.276 | 10,000 | 0.000 |
 | Social  | 33.76 | 2.42 | 0.256 | 10,000 | 0.000 |
+
+#### Unigram
+
+| Domain  | Avg tokens / sentence | Avg tokens / word | Fertility | # Sentences | UNK rate |
+|--------|-----------------------|-------------------|-----------|-------------|----------|
+| Fiction | 19.61 | 1.80 | 0.302 | 10,000 | 0.000 |
+| Social  | 27.62 | 1.98 | 0.221 | 10,000 | 0.000 |
 
 ---
 
