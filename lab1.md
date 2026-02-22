@@ -68,18 +68,18 @@ This rule preserves punctuation and treats line breaks as sentence boundaries, w
 
 A word-level tokenizer is used as a lower-bound efficiency baseline. It produces no unknown tokens and no subword fragmentation.
 
-| Domain  | Avg tokens / sentence | Avg chars / sentence | Fertility (per char) | UNK rate |
-|--------|-----------------------|----------------------|----------------------|----------|
-| Fiction | 8.20 | 39.38 | 0.208 | 0.000 |
-| Social  | 11.37 | 55.00 | 0.207 | 0.000 |
+| Domain   | Avg tokens / sentence | Avg words / sentence | Fertility | UNK rate |
+|----------|----------------------|----------------------|-------------------|----------|
+| Fiction  | 8.1704               | 8.1704               | 1.000             | 0.000    |
+| Social   | 11.2719              | 11.2719              | 1.000             | 0.000    |
 
 
 #### WordPiece — Tokenization Metrics
 
-| Domain  | Avg tokens / sentence | Avg tokens / word | Fertility | # Sentences | UNK rate |
-|--------|-----------------------|-------------------|-----------|-------------|----------|
-| Fiction | 39.38 | 9.54 | 0.242 | 10,000 | 0.000 |
-| Social  | 55.00 | 19.30 | 0.351 | 10,000 | 0.0257 |
+| Domain   | Avg tokens / sentence | Avg words / sentence | Fertility | UNK rate |
+|----------|----------------------|----------------------|-------------------|----------|
+| Fiction  | 9.3537               | 8.1704               | 1.145             | 0.000    |
+| Social   | 18.9228              | 11.2719              | 1.678             | 0.024    |
 
 #### SentencePiece BPE
 
