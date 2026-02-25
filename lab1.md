@@ -83,17 +83,17 @@ A word-level tokenizer is used as a lower-bound efficiency baseline. It produces
 
 #### SentencePiece BPE
 
-| Domain  | Avg tokens / sentence | Avg tokens / word | Fertility | # Sentences | UNK rate |
-|--------|-----------------------|-------------------|-----------|-------------|----------|
-| Fiction | 18.53 | 1.71 | 0.276 | 10,000 | 0.000 |
-| Social  | 33.76 | 2.42 | 0.256 | 10,000 | 0.000 |
+| Domain  | Avg tokens / sentence |  Fertility | UNK rate |
+|--------|-----------------------|-------------------|-----------|
+| Fiction | 18.53 | 1.71 |  0.000 |
+| Social  | 33.76 | 2.42 |  0.000 |
 
 #### Unigram
 
-| Domain  | Avg tokens / sentence | Avg tokens / word | Fertility | # Sentences | UNK rate |
-|--------|-----------------------|-------------------|-----------|-------------|----------|
-| Fiction | 19.61 | 1.80 | 0.302 | 10,000 | 0.000 |
-| Social  | 27.62 | 1.98 | 0.221 | 10,000 | 0.000 |
+| Domain  | Avg tokens / sentence | Fertility | UNK rate |
+|--------|-----------------------|-------------------|----------|
+| Fiction | 13.39 | 1.64 | 0.000 |
+| Social  | 27.62 | 1.98 | 0.000 |
 
 ---
 
