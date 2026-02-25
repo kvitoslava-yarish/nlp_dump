@@ -85,8 +85,8 @@ A word-level tokenizer is used as a lower-bound efficiency baseline. It produces
 
 | Domain  | Avg tokens / sentence |  Fertility | UNK rate |
 |--------|-----------------------|-------------------|-----------|
-| Fiction | 18.53 | 1.71 |  0.000 |
-| Social  | 33.76 | 2.42 |  0.000 |
+| Fiction | 70.2 | 3.17 |  0.000 |
+| Social  | 75.1 | 3.94 |  0.000 |
 
 #### Unigram
 
